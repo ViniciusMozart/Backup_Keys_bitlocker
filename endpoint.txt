@@ -1,0 +1,11 @@
+https://graph.microsoft.com/v1.0/informationProtection/bitlocker/recoveryKeys
+
+
+https://graph.microsoft.com/v1.0/informationProtection/bitlocker/recoveryKeys/b465e4e8-e4e8-b465-e8e4-65b4e8e465b4
+
+
+tipo 1 sistema operacional
+
+tipo 2 unidade fixa
+
+tipo 3 unidade removivel
