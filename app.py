@@ -10,14 +10,13 @@ load_dotenv()
 app = Flask(__name__)
 
 # Substitua pelos valores adequados
-client_id = '22f1dd87-6aef-4dc8-a97d-126151074abe'
-client_secret = 'f4y8Q~Fejmu-qQVAMGhwdfNTACp3t7mDNT1ysbzL'
+client_id = os.getenv("CLIENT_ID")
+client_secret = os.getenv("CLIENT_SECRET")
 redirect_uri = 'http://localhost:5000/callback'
 scope = 'https://graph.microsoft.com/.default'
 tenant_id = db.get_tenant_id()
 print(tenant_id)
-#teste tenant_id = 'adfc66f7-9f68-48d1-8337-7b77a2b946e7'
-#wenz tenant_id = 'd968928c-f50a-40b9-b9b7-01ec79503152'
+
 
 # URL de autenticação da Microsoft
 auth_url = f"https://login.microsoftonline.com/{tenant_id}/oauth2/v2.0/authorize?client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&response_mode=query&scope={scope}&state=12345"
