@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  backup-key:
+    container_name: sharepointanalytics-score
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      TENANT_ID: $TENANT_ID
+      CLIENT_ID: $CLIENT_ID
+      CLIENT_SECRET: $CLIENT_SECRET
+      # GROUP_ID: your_group_id  # Descomente e substitua conforme necessário
+    volumes:
+      - .:/app

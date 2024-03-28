@@ -1,4 +1,6 @@
-from flask import Flask, request, redirect, render_template,url_for, flash
+from flask import Flask, request, redirect, render_template,url_for, flash, session, jsonify
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from werkzeug.security import check_password_hash
 import requests
 import webbrowser
 import db
@@ -10,12 +12,17 @@ load_dotenv()
 app = Flask(__name__)
 
 # Substitua pelos valores adequados
+
 client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 redirect_uri = 'http://localhost:5000/callback'
 scope = 'https://graph.microsoft.com/.default'
-tenant_id = db.get_tenant_id()
-print(tenant_id)
+app.secret_key = client_secret  # Necessário para manter sessões seguras
+tenant_id = os.getenv("TENNANT_ID")
+# tenant_id = db.get_tenant_id()
+print(f'Esse é o tennantid   {tenant_id}')
+
+
 
 
 # URL de autenticação da Microsoft
@@ -26,6 +33,7 @@ token_url = f"https://login.microsoftonline.com/{tenant_id}/oauth2/v2.0/token"
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
+# @login_required
 def home():
     tenant_id = db.get_tenant_id()
     
@@ -43,10 +51,45 @@ def home():
     if tenant_id:
         return redirect(url_for('autorize'))
     else:
-        return render_template('home.html')
+        return redirect(url_for('config'))
 
-@app.route('/autorize', methods=['GET'])
+
+
+@app.route('/config')
+# @login_required
+def config():
+    # print(current_user)
+    return render_template('config-tennant.html')
+            
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        # Agora usamos a função `validar_credenciais` para verificar o usuário e a senha
+        if db.validar_credenciais(username, password):
+            # Se as credenciais são válidas, armazenamos o username na sessão
+            session['username'] = username
+            return redirect(url_for('home'))
+        else:
+            # Se a validação falhar, retornamos uma mensagem de erro
+            return 'Login falhou'
+    
+    # Se o método for GET, simplesmente renderizamos o formulário de login
+    return render_template('login.html')
+
+
+@app.route('/logout')
+def logout():
+    # session.pop('username', None)
+    # session.clear()  # Limpa a sessão
+    #logout_user()
+    return redirect(url_for('login'))    
+
+@app.route('/autorize', methods=['GET', 'POST'])
 def autorize():
+
 
     return redirect(auth_url)
    
@@ -59,11 +102,21 @@ def relatorio():
 
 @app.route('/callback')
 def callback():
+    
     # Captura o código de autorização retornado
     code = request.args.get('code')
     if not code:
         return 'Código de autorização não encontrado na resposta.', 400
-
+    # Retornar a página HTML que inicia o processo
+    return render_template('processando.html', code=code)
+    
+    
+    
+@app.route('/processar')
+def processar():
+    code = request.args.get('code')
+    if not code:
+        return jsonify({'success': False, 'message': 'Código não fornecido'}), 400
     # Troca o código por um token de acesso
     token_data = {
         'client_id': client_id,
@@ -77,11 +130,13 @@ def callback():
     token_r = requests.post(token_url, data=token_data, headers=headers)
     token_r.raise_for_status()  # Levanta um erro para respostas HTTP falhas
     token_response = token_r.json()
+    
 
     access_token = token_response.get('access_token')
+    print(f'Esse é o token:{access_token}')
     if not access_token:
         return 'Token de acesso não foi encontrado na resposta.', 400
-
+    
     # Aqui você faria algo com o access_token, como armazená-lo de forma segura
     try:
         
@@ -98,15 +153,9 @@ def callback():
         print(f"Error retrieving recovery keys: {e}")
     
     db.save_keys(keys, access_token)
-    # for key in keys:
-    #     recovery_key_id = key['id']
-    #     device_id = key['deviceId']
-
-    #     try:
-    #         db.save_keys(keys, access_token)
-    #     except Exception as e:
-    #         print(f"Error fetching data for Device ID: {device_id}, Recovery Key ID: {recovery_key_id}: {e}")
-    return keys
+    return jsonify({'success': True})
+   
+   
 
     
 

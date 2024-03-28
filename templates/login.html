@@ -1,0 +1,52 @@
+<head>
+    
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/ico.ico') }}">
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>login</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' type='text/css' media='screen' href="{{ url_for('static', filename='css/style.css') }}">
+    
+
+</head>
+<body class="">
+    <section class="home">
+      <div class="description">
+        <h1 class="title">
+          <span class="gradient-text">Admin 365 Facilitando </span>a Gestão do seu 365
+        </h1>
+        <p class="paragraph">
+          365 dias do ano te ajudando a cuidar do ambiente microsoft 365.
+          Ferramentas e relatorios otimizados para manter a saude do seu tennant 
+          sempre em dia.
+        </p>
+
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </a>
+        </form>
+      </div>
+      <div class="form-container">
+        <p class="title">Login</p>
+        <form class="form" method="post">
+            
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" placeholder="">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="">
+                <div class="forgot">
+                    <a rel="noopener noreferrer" href="#">Forgot Password ?</a>
+                </div>
+            </div>
+            <button class="sign">Login</button>
+        </form>
+    </div>
+
+
+  </body>
+  <script src="" async defer></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/login.js') }}" ></script>

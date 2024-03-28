@@ -11,7 +11,7 @@
     <body>
         <div class="navbar-top">
             <img class="logo-class" src="{{ url_for('static', filename='img/logo-w2.png') }}" alt="Logo"> <!-- Adicionar logo aqui -->
-            <button id="btn-message" class="button-message">
+            <!--<button id="btn-message" class="button-message">
                 <div class="content-avatar">
                     <div class="status-user"></div>
                     <div class="avatar">
@@ -23,12 +23,16 @@
                     <div class="lable-message">Rafael<span class="number-message"></span></div>
                     <div class="user-id">Rafael.castro@wenz.com.br</div>
                 </div>
-            </button>
+                
+            </button>-->
+            <div>
+                <a href="/logout">Logout</a>
+            </div>
             <img class="logo-class" src="{{ url_for('static', filename='img/logo-backup-bit.png') }}" alt="Logo"> <!-- Adicionar logo aqui -->
         
         </div>
         <div class="page-body">
-            <div class="container">
+            <!-- <div class="container">
                 
                 <ul>
                     <li style="--i: #a955ff; --j:#ea51ff">
@@ -78,7 +82,7 @@
                     <div class="circle"></div>
                     </div>
                 </label>
-            </div>
+            </div> -->
 
 
             {% block conteudo %}

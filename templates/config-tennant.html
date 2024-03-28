@@ -1,0 +1,40 @@
+    {% extends "base.html" %}
+    {%block conteudo%}
+    <div class="form-class">
+        <div class="corpo">
+            <br>
+            <h1 class="h-hero__title">Painel de configuração<h1>
+            <br>
+            <div class="lista-conf">    
+            <li>Insira o Id de Locátario e clique em autorizar.</li>
+            <br>
+            <li>Para autorizar você precisa ser Administrador</li>
+            <br>
+            <li>Após inserir o Tennant Id Você não pode alterar.</li>
+            <br>
+            <p> 
+            </div>   
+        </div>
+        <div class="form-align">
+            <form class="form-tnt"action="/autorize" method="post">
+                <label for="tenant_id">Tenant ID:</label>
+                <input class="input-tnt" type="text" id="tenant_id" name="tenant_id">
+                <button type="submit">Autorizar</button>
+            </form>
+            
+        </div>
+        <div>
+            <br>
+            <div class="form-align">
+            <li>você pode encontralo no portal do Entra conforme print abaixo ou clicando no
+            <a href="https://portal.azure.com/#view/Microsoft_AAD_IAM/ActiveDirectoryMenuBla<>de/~/Overview" class="menu__link" target="_blank">
+                Link!
+              </a>
+            </li>
+            </div>
+        </div>
+        <div>
+            <img class="doc-class" src="../static/img/doc.png" alt="Logo">
+        </div>
+    </div>
+    {%endblock%}

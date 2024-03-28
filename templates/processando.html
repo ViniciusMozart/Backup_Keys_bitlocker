@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<style>
+    /* Estilos para centralizar a mensagem e o gif de carregamento */
+    .centro {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        
+        
+    }
+    .esconder {
+        display: none;
+        max-width:10px;
+    }
+    .gif-load {
+        max-width: 500px;
+
+    
+    }
+</style>
+
+<script type="text/javascript">
+    window.onload = function() {
+        var mensagemDiv = document.getElementById("mensagem");
+        var loadingImg = document.getElementById("loading");
+
+        // Mostrar a mensagem inicial e o gif
+        mensagemDiv.innerText = "Coletando chaves, não recarregue nem feche o navegador...";
+        loadingImg.classList.remove("esconder");
+
+        // Iniciar o processamento em segundo plano após um breve atraso
+        setTimeout(function() {
+            fetch("/processar?code={{ code }}")
+                .then(response => response.json())
+                .then(data => {
+                    // Esconder o gif de carregamento
+                    loadingImg.classList.add("esconder");
+
+                    // Atualizar a página com o resultado do processamento
+                    if(data.success) {
+                        mensagemDiv.innerText = "Concluído com sucesso!";
+                    } else {
+                        mensagemDiv.innerText = "Erro ao processar.";
+                    }
+                });
+        }, 1000); // Atraso de 1 segundo para a demonstração
+    }
+</script>
+
+<div class="centro">
+    <div id="mensagem">Aguarde...</div>
+    <img class="gif-load" id="loading" src="{{ url_for('static', filename='img/loading.gif') }}" class="esconder" />
+    
+</div>
+{% endblock %}
