@@ -14,7 +14,7 @@ COPY create_users.py .
 COPY db.py .
 COPY graph.py .
 ########copiando banco usuarios
-# COPY db.py .
+COPY db.py .
 #######copiando requisitos
 COPY requirements.txt .
 
